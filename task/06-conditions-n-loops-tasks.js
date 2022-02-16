@@ -31,9 +31,9 @@
 function getFizzBuzz(num) {
   if (num % 3 === 0 && num % 5 !== 0) {
     return "Fizz";
-  } else if (num % 5 === 0 && num % 3 !== 0) {
+  } if (num % 5 === 0 && num % 3 !== 0) {
     return "Buzz";
-  } else if (num % 3 === 0 && num % 5 === 0) {
+  } if (num % 3 === 0 && num % 5 === 0) {
     return "FizzBuzz";
   }
   return num;
@@ -93,7 +93,7 @@ function getSumBetweenNumbers(n1, n2) {
  */
 function isTriangle(a, b, c) {
   if (a <= 0 || b <= 0 || c <= 0) return false;
-  else if (a + b > c && a + c > b && c + b > a) return true;
+  if (a + b > c && a + c > b && c + b > a) return true;
   return false;
 }
 
@@ -395,26 +395,26 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-  /*const difference = endDate.getSeconds() - startDate.getSeconds();
-  switch (difference) {
-    case difference <= 45:
-      return "a few seconds ago";
-      break;
-    case 45 < difference <= 90:
-      return "a minute ago";
-      break;
-    case 90 < difference && difference.getMinutes() <= 45:
-      return `${difference.getMinutes()}minutes ago`;
-      break;
+ /* const second = 1;
+  const minute = 60*second;
+  const  hour = 60 * minute;
+  const  day = 24 * hour;
+  const  month = 30 * day;
+  const  year = 365 * day;
+  const difference = (endDate - startDate)/1000;
 
-    case 45 < difference.getMinutes() <= 90:
-      return "an hour ago";
-      break;
-    case 90 > difference && difference.getHours() <= 22:
-      return "2 minutes ago ... 45 minutes ago";
-      break;
-  }
-}*/
+  if (difference < 45) return "a few seconds ago";
+  if (difference <= 90) return "a minute ago";
+  if (difference <= 45 * minute) return `${Math.round((difference-1 )/ minute)} minutes ago`;
+  if (difference <= 90 * minute) return "an hour ago";
+  if (difference <= 22 * hour) return  `${Math.round((difference-1) / hour)} hours ago`;
+  if (difference <= 36 * hour) return "a day ago";
+  if (difference <= 25 * day) return `${Math.round((difference-1 )/ day)} days ago`;
+  if (difference <= 45 * day) return "a month ago";
+  if (difference <= 345 * day) return `${Math.round((difference) / month)} months ago`;
+  if (difference <= 545 * day) return "a year ago";
+  return `${Math.round((difference) / year)} years ago`;*/
+
   throw new Error("Not implemented");
 }
 
@@ -438,7 +438,14 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-  throw new Error("Not implemented");
+  let result = '';
+   num = num.toString();
+    while (num >= n) {
+        result = (num % n) + result;
+        num = Math.floor(num / n);
+    }
+    return num + result;
+
 }
 
 /**
@@ -454,21 +461,21 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-  /*const splitStrings = (a, sep = "/ ,") => a.map((i) => i.split(sep));
-
-  const elAt = (i) => (a) => a[i];
-
-  const rotate = (a) => a[0].map((e, i) => a.map(elAt(i)));
-
-  const allElementsEqual = (arr) => arr.every((e) => e === arr[0]);
-
-  const commonPath = (input, sep = "/") =>
-    rotate(splitStrings(input, sep))
-      .filter(allElementsEqual)
-      .map(elAt(0))
-      .join(sep);
-  return commonPath(pathes);*/
-  throw new Error("Not implemented");
+ 
+  let path = '';
+  for (let i = 0; i < pathes[0].length; i++) {
+      var b = true;
+      for (var j = 1; j < pathes.length; j++)
+          if (pathes[0][i] != pathes[j][i]) {
+              b = false;
+              break;
+          }
+      if (!b)
+          break;
+      else
+          path += pathes[0][i];
+  }
+  return path.slice(0, path.lastIndexOf('/') + 1);
 }
 
 /**
@@ -494,19 +501,18 @@ function getMatrixProduct(m1, m2) {
     colsm1 = m1[0].length,
     rowsm2 = m2.length,
     colsm2 = m2[0].length,
-    C = [];
+    m3 = [];
   if (colsm1 != rowsm2) return false;
-  for (let i = 0; i < rowsm1; i++) C[i] = [];
+  for (let i = 0; i < rowsm1; i++) m3[i] = [];
   for (let k = 0; k < colsm2; k++) {
     for (let i = 0; i < rowsm1; i++) {
       var t = 0;
       for (let j = 0; j < rowsm2; j++) t += m1[i][j] * m2[j][k];
-      C[i][k] = t;
+      m3[i][k] = t;
     }
   }
-  return C;
+  return m3;
 }
-//throw new Error("Not implemented");
 
 /**
  * Returns the evaluation of the specified tic-tac-toe position.
@@ -539,7 +545,21 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-  throw new Error("Not implemented");
+  let d1 = position[0][0] !== undefined;
+   let d2 = position[0][2] !== undefined;
+for (let i = 0; i < 3; i++) {
+  if (position[i][0] === position[i][1] && position[i][0] === position[i][2] && position[i][0] !== undefined)
+      return position[i][0];
+  if (position[0][i] === position[1][i] && position[0][i] === position[2][i] && position[0][i] !== undefined)
+      return position[0][i];
+  d1 = d1 && position[0][0] === position[i][i];
+  d2 = d2 && position[0][2] === position[i][2 - i];
+}
+if (d1)
+  return position[0][0];
+if (d2)
+  return position[0][2];
+  
 }
 
 module.exports = {
@@ -562,4 +582,3 @@ module.exports = {
   getMatrixProduct: getMatrixProduct,
   evaluateTicTacToePosition: evaluateTicTacToePosition,
 };
-
