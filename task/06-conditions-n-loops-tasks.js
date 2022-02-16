@@ -31,9 +31,11 @@
 function getFizzBuzz(num) {
   if (num % 3 === 0 && num % 5 !== 0) {
     return "Fizz";
-  } if (num % 5 === 0 && num % 3 !== 0) {
+  }
+  if (num % 5 === 0 && num % 3 !== 0) {
     return "Buzz";
-  } if (num % 3 === 0 && num % 5 === 0) {
+  }
+  if (num % 3 === 0 && num % 5 === 0) {
     return "FizzBuzz";
   }
   return num;
@@ -130,9 +132,21 @@ function isTriangle(a, b, c) {
  *
  */
 function doRectanglesOverlap(rect1, rect2) {
-  // Проверяем если верхняя грань первого прямоугольника находится ниже второго,
-  // или нижняя выше верхней  грани первого. Тоже самое и для оси X.
-  throw new Error("Not implemented");
+  rect1.x = rect1.left;
+  rect1.x2 = rect1.x + rect1.width;
+  rect1.y = rect1.top;
+  rect1.y2 = rect1.y + rect1.height;
+
+  rect2.x = rect2.left;
+  rect2.x2 = rect2.x + rect2.width;
+  rect2.y = rect2.top;
+  rect2.y2 = rect2.y + rect2.height;
+
+  if (rect1.x > rect2.x2) return false;
+  if (rect1.x2 < rect2.x) return false;
+  if (rect1.y > rect2.y2) return false;
+  if (rect1.y2 < rect2.y) return false;
+  return true;
 }
 
 /**
@@ -395,27 +409,30 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
- /* const second = 1;
-  const minute = 60*second;
-  const  hour = 60 * minute;
-  const  day = 24 * hour;
-  const  month = 30 * day;
-  const  year = 365 * day;
-  const difference = (endDate - startDate)/1000;
+  const millisecond = 1;
+  const second = 1000 * millisecond;
+  const minute = 60 * second;
+  const hour = 60 * minute;
+  const day = 24 * hour;
+  const month = 30 * day;
+  const year = 365 * day;
+  const difference = endDate - startDate;
 
-  if (difference < 45) return "a few seconds ago";
-  if (difference <= 90) return "a minute ago";
-  if (difference <= 45 * minute) return `${Math.round((difference-1 )/ minute)} minutes ago`;
+  if (difference <= 45 * second) return "a few seconds ago";
+  if (difference <= 90 * second) return "a minute ago";
+  if (difference <= 45 * minute)
+    return `${Math.round((difference - 1) / minute)} minutes ago`;
   if (difference <= 90 * minute) return "an hour ago";
-  if (difference <= 22 * hour) return  `${Math.round((difference-1) / hour)} hours ago`;
+  if (difference <= 22 * hour)
+    return `${Math.round((difference - 1) / hour)} hours ago`;
   if (difference <= 36 * hour) return "a day ago";
-  if (difference <= 25 * day) return `${Math.round((difference-1 )/ day)} days ago`;
+  if (difference <= 25 * day)
+    return `${Math.round((difference - 1) / day)} days ago`;
   if (difference <= 45 * day) return "a month ago";
-  if (difference <= 345 * day) return `${Math.round((difference) / month)} months ago`;
+  if (difference <= 345 * day)
+    return `${Math.round(difference / month)} months ago`;
   if (difference <= 545 * day) return "a year ago";
-  return `${Math.round((difference) / year)} years ago`;*/
-
-  throw new Error("Not implemented");
+  return `${Math.round(difference / year)} years ago`;
 }
 
 /**
@@ -438,14 +455,13 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-  let result = '';
-   num = num.toString();
-    while (num >= n) {
-        result = (num % n) + result;
-        num = Math.floor(num / n);
-    }
-    return num + result;
-
+  let result = "";
+  num = num.toString();
+  while (num >= n) {
+    result = (num % n) + result;
+    num = Math.floor(num / n);
+  }
+  return num + result;
 }
 
 /**
@@ -461,21 +477,18 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
- 
-  let path = '';
+  let path = "";
   for (let i = 0; i < pathes[0].length; i++) {
-      var b = true;
-      for (var j = 1; j < pathes.length; j++)
-          if (pathes[0][i] != pathes[j][i]) {
-              b = false;
-              break;
-          }
-      if (!b)
-          break;
-      else
-          path += pathes[0][i];
+    var b = true;
+    for (var j = 1; j < pathes.length; j++)
+      if (pathes[0][i] != pathes[j][i]) {
+        b = false;
+        break;
+      }
+    if (!b) break;
+    else path += pathes[0][i];
   }
-  return path.slice(0, path.lastIndexOf('/') + 1);
+  return path.slice(0, path.lastIndexOf("/") + 1);
 }
 
 /**
@@ -546,20 +559,25 @@ function getMatrixProduct(m1, m2) {
  */
 function evaluateTicTacToePosition(position) {
   let d1 = position[0][0] !== undefined;
-   let d2 = position[0][2] !== undefined;
-for (let i = 0; i < 3; i++) {
-  if (position[i][0] === position[i][1] && position[i][0] === position[i][2] && position[i][0] !== undefined)
+  let d2 = position[0][2] !== undefined;
+  for (let i = 0; i < 3; i++) {
+    if (
+      position[i][0] === position[i][1] &&
+      position[i][0] === position[i][2] &&
+      position[i][0] !== undefined
+    )
       return position[i][0];
-  if (position[0][i] === position[1][i] && position[0][i] === position[2][i] && position[0][i] !== undefined)
+    if (
+      position[0][i] === position[1][i] &&
+      position[0][i] === position[2][i] &&
+      position[0][i] !== undefined
+    )
       return position[0][i];
-  d1 = d1 && position[0][0] === position[i][i];
-  d2 = d2 && position[0][2] === position[i][2 - i];
-}
-if (d1)
-  return position[0][0];
-if (d2)
-  return position[0][2];
-  
+    d1 = d1 && position[0][0] === position[i][i];
+    d2 = d2 && position[0][2] === position[i][2 - i];
+  }
+  if (d1) return position[0][0];
+  if (d2) return position[0][2];
 }
 
 module.exports = {
