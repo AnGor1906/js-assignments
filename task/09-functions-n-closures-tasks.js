@@ -25,9 +25,7 @@
  *
  */
 function getComposition(f, g) {
-  return function (x) {
-    return f(g(x));
-  };
+  return (x) => f(g(x));
 }
 
 /**
@@ -50,6 +48,8 @@ function getPowerFunction(exponent) {
   return function (x) {
     return Math.pow(x, exponent);
   };
+
+  // TODO
 }
 
 /**
@@ -65,8 +65,15 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error("Not implemented");
+function getPolynom(...args) {
+  return function (x) {
+    let result = 0;
+    for (let i = 0; i < args.length; i++)
+      result += args[i] * Math.pow(x, args.length - i - 1);
+    return result;
+  };
+
+  // TODO
 }
 
 /**
@@ -88,6 +95,8 @@ function memoize(func) {
   return function () {
     return result;
   };
+
+  // TODO
 }
 
 /**
@@ -106,7 +115,12 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-  throw new Error("Not implemented");
+  return function () {
+    for (let i = 0; i <= attempts; i++)
+      try {
+        return func();
+      } catch (error) {}
+  };
 }
 
 /**
@@ -173,6 +187,8 @@ function getIdGeneratorFunction(startFrom) {
   return function () {
     return startFrom++;
   };
+
+  // TODO
 }
 
 module.exports = {

@@ -29,15 +29,18 @@
  *
  */
 function getFizzBuzz(num) {
-  if (num % 3 === 0 && num % 5 !== 0) {
-    return "Fizz";
-  }
-  if (num % 5 === 0 && num % 3 !== 0) {
-    return "Buzz";
-  }
-  if (num % 3 === 0 && num % 5 === 0) {
+  if (num % 15 === 0) {
     return "FizzBuzz";
   }
+
+  if (num % 5 === 0) {
+    return "Buzz";
+  }
+
+  if (num % 3 === 0) {
+    return "Fizz";
+  }
+
   return num;
 }
 
@@ -53,11 +56,12 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-  if (n === 0 || n === 1) return 1;
+  if (n < 2) return 1;
   for (let i = n - 1; i >= 1; i--) {
     n *= i;
   }
   return n;
+  // TODO remove mutation
 }
 
 /**
@@ -77,6 +81,7 @@ function getSumBetweenNumbers(n1, n2) {
     n1 += i;
   }
   return n1;
+  // TODO remove mutation, remove loop
 }
 
 /**
@@ -94,9 +99,7 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,10,10 =>  true
  */
 function isTriangle(a, b, c) {
-  if (a <= 0 || b <= 0 || c <= 0) return false;
-  if (a + b > c && a + c > b && c + b > a) return true;
-  return false;
+  return a + b > c && a + c > b && c + b > a;
 }
 
 /**
@@ -147,6 +150,7 @@ function doRectanglesOverlap(rect1, rect2) {
   if (rect1.y > rect2.y2) return false;
   if (rect1.y2 < rect2.y) return false;
   return true;
+  // TODO remove mutation, clean up
 }
 
 /**
@@ -200,6 +204,8 @@ function findFirstSingleChar(str) {
     }
   }
   return null;
+
+  // TODO: simplify
 }
 
 /**
@@ -229,6 +235,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
     (a < b ? a + ", " + b : b + ", " + a) +
     (isEndIncluded ? "]" : ")")
   );
+  // TODO Fucking cringe
 }
 
 /**
@@ -244,11 +251,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-  let reversed = "";
-  for (let i = str.length - 1; i >= 0; i--) {
-    reversed += str[i];
-  }
-  return reversed;
+  return str.split().reverse().join();
 }
 
 /**
@@ -306,9 +309,8 @@ function isCreditCardNumber(ccn) {
       if (i % 2 === 0) {
         return el;
       }
-      {
-        return el * 2 < 9 ? el * 2 : ((el * 2) % 10) + 1;
-      }
+
+      return el * 2 < 9 ? el * 2 : ((el * 2) % 10) + 1;
     });
   const result = changedArr.reduce((acc, el) => acc + Number(el), 0);
   return result % 10 === 0;
@@ -374,7 +376,10 @@ function isBracketsBalanced(str) {
       }
     }
   }
-  return stack.length === 0;
+
+  return !stack.length;
+
+  // TODO
 }
 
 /**
@@ -462,6 +467,8 @@ function toNaryString(num, n) {
     num = Math.floor(num / n);
   }
   return num + result;
+
+  // TODO
 }
 
 /**
@@ -479,8 +486,8 @@ function toNaryString(num, n) {
 function getCommonDirectoryPath(pathes) {
   let path = "";
   for (let i = 0; i < pathes[0].length; i++) {
-    var b = true;
-    for (var j = 1; j < pathes.length; j++)
+    let b = true;
+    for (let j = 1; j < pathes.length; j++)
       if (pathes[0][i] != pathes[j][i]) {
         b = false;
         break;
@@ -489,6 +496,8 @@ function getCommonDirectoryPath(pathes) {
     else path += pathes[0][i];
   }
   return path.slice(0, path.lastIndexOf("/") + 1);
+
+  // TODO
 }
 
 /**
@@ -510,21 +519,23 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-  const rowsm1 = m1.length,
-    colsm1 = m1[0].length,
-    rowsm2 = m2.length,
-    colsm2 = m2[0].length,
-    m3 = [];
+  const rowsm1 = m1.length;
+  const colsm1 = m1[0].length;
+  const rowsm2 = m2.length;
+  const colsm2 = m2[0].length;
+  const m3 = [];
   if (colsm1 != rowsm2) return false;
   for (let i = 0; i < rowsm1; i++) m3[i] = [];
   for (let k = 0; k < colsm2; k++) {
     for (let i = 0; i < rowsm1; i++) {
-      var t = 0;
+      let t = 0;
       for (let j = 0; j < rowsm2; j++) t += m1[i][j] * m2[j][k];
       m3[i][k] = t;
     }
   }
   return m3;
+
+  // TODO
 }
 
 /**
@@ -564,7 +575,7 @@ function evaluateTicTacToePosition(position) {
     if (
       position[i][0] === position[i][1] &&
       position[i][0] === position[i][2] &&
-      position[i][0] !== undefined
+      position[i][0]
     )
       return position[i][0];
     if (
@@ -578,6 +589,8 @@ function evaluateTicTacToePosition(position) {
   }
   if (d1) return position[0][0];
   if (d2) return position[0][2];
+
+  // TODO
 }
 
 module.exports = {

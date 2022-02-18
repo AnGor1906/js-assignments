@@ -23,6 +23,7 @@
  */
 function findElement(arr, value) {
   return arr.indexOf(value);
+  // TODO findIndex
 }
 
 /**
@@ -37,7 +38,8 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-  return new Array(len).fill(0).map((el, i) => 2 * i + 1);
+  return new Array(len).fill(0).map((_, i) => 2 * i + 1);
+  // TODO better variable names
 }
 
 /**
@@ -52,7 +54,7 @@ function generateOdds(len) {
  *    [] => []
  */
 function doubleArray(arr) {
-  return arr.concat(arr);
+  return [...arr, ...arr];
 }
 
 /**
@@ -127,9 +129,7 @@ function getUpperCaseStrings(arr) {
  *    [ 'angular', 'react', 'ember' ] => [ 7, 5, 5 ]
  */
 function getStringsLength(arr) {
-  return arr.map((el) => {
-    return el.length;
-  });
+  return arr.map((el) => el.length);
 }
 
 /**
@@ -144,7 +144,7 @@ function getStringsLength(arr) {
  *    [ 1, 'b', 'c'], 0, 'x'  => [ 'x', 1, 'b', 'c' ]
  */
 function insertItem(arr, item, index) {
-  return arr.splice(index, 0, item);
+  arr.splice(index, 0, item);
 }
 
 /**
@@ -236,6 +236,7 @@ function getMovingSum(arr) {
   });
   arr2.push(amount);
   return arr2;
+  // TODO Refactor to use only one reduce and no outside variables
 }
 
 /**
@@ -250,9 +251,7 @@ function getMovingSum(arr) {
  * [ "a" ] => []
  */
 function getSecondItems(arr) {
-  return arr.filter((el, index) => {
-    return index % 2 !== 0;
-  });
+  return arr.filter((_, index) => index % 2 !== 0);
 }
 
 /**
@@ -270,11 +269,12 @@ function getSecondItems(arr) {
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
 function propagateItemsByPositionIndex(arr) {
-  if (arr.length === 0 || arr.length === 1) return arr;
+  if (arr.length < 2) return arr;
   return arr.reduce((acc, value, index) => {
     acc.push(...Array(index + 1).fill(value));
     return acc;
   }, []);
+  // TODO Do without array mutation
 }
 
 /**
@@ -292,6 +292,7 @@ function propagateItemsByPositionIndex(arr) {
  */
 function get3TopItems(arr) {
   return arr.reverse().slice(0, 3);
+  // TODO Do without mutation
 }
 
 /**
@@ -308,7 +309,7 @@ function get3TopItems(arr) {
  *   [ 1, '2' ] => 1
  */
 function getPositivesCount(arr) {
-  return arr.filter((el) => el > 0 && typeof el === "number").length;
+  return arr.filter((el) => typeof el === "number" && el > 0).length;
 }
 
 /**
@@ -370,7 +371,7 @@ function getItemsSum(arr) {
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
 function getFalsyValuesCount(arr) {
-  return arr.filter((el) => !!el === false).length;
+  return arr.filter((el) => !el).length;
 }
 
 /**
@@ -438,9 +439,7 @@ function sortCitiesArray(arr) {
   //         return -1
   //     if (countryA > countryB)
   //         return 1
-  //     return 0
-  // })
-  //     .sort(function(a, b) {
+
   //       const cityA = a.city.toLowerCase();
   //       const cityB = b.city.toLowerCase();
   //       if (cityA < cityB)
@@ -453,6 +452,7 @@ function sortCitiesArray(arr) {
   return arr.sort(
     (a, b) =>
       a.country.localeCompare(b.country) * 1000 + a.city.localeCompare(b.city)
+    // TODO Remove 1000
   );
 }
 
@@ -546,12 +546,13 @@ function distinct(arr) {
  */
 function group(array, keySelector, valueSelector) {
   const map = new Map();
-  array = array.map((el, i) => {
+  array = array.map((_, i) => {
     const key = keySelector(array[i]);
     if (map.has(key)) return map.get(key).push(valueSelector(array[i]));
     return map.set(key, [valueSelector(array[i])]);
   });
   return map;
+  // TODO use reduce
 }
 
 /**
@@ -582,10 +583,8 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-  indexes.map((element) => {
-    return (arr = arr[element]);
-  });
-  return arr;
+  return indexes.map((element) => (arr = arr[element]));
+  // TODO remove mutation
 }
 
 /**
@@ -607,13 +606,14 @@ function getElementByIndexes(arr, indexes) {
  *
  */
 function swapHeadAndTail(arr) {
-  const htlength = Math.floor(arr.length / 2);
-  const tail = arr.slice(-htlength);
-  const head = arr.slice(0, htlength);
-  const body = arr.slice(htlength, htlength + 1);
+  const headTailLength = Math.floor(arr.length / 2);
+  const tail = arr.slice(-headTailLength);
+  const head = arr.slice(0, headTailLength);
+  const body = arr.slice(headTailLength, headTailLength + 1);
   if (arr.length === 1) return arr;
-  else if (arr.length % 2 === 0) return tail.concat(head);
+  if (arr.length % 2 === 0) return tail.concat(head);
   return tail.concat(body, head);
+  // TODO use spread
 }
 
 module.exports = {
