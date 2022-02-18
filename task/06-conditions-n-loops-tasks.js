@@ -94,7 +94,6 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,10,10 =>  true
  */
 function isTriangle(a, b, c) {
-  if (a <= 0 || b <= 0 || c <= 0) return false;
   if (a + b > c && a + c > b && c + b > a) return true;
   return false;
 }
@@ -479,8 +478,8 @@ function toNaryString(num, n) {
 function getCommonDirectoryPath(pathes) {
   let path = "";
   for (let i = 0; i < pathes[0].length; i++) {
-    var b = true;
-    for (var j = 1; j < pathes.length; j++)
+    let b = true;
+    for (let j = 1; j < pathes.length; j++)
       if (pathes[0][i] != pathes[j][i]) {
         b = false;
         break;
@@ -510,16 +509,16 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-  const rowsm1 = m1.length,
-    colsm1 = m1[0].length,
-    rowsm2 = m2.length,
-    colsm2 = m2[0].length,
-    m3 = [];
+  const rowsm1 = m1.length;
+  const colsm1 = m1[0].length;
+  const rowsm2 = m2.length;
+  const colsm2 = m2[0].length;
+  const m3 = [];
   if (colsm1 != rowsm2) return false;
   for (let i = 0; i < rowsm1; i++) m3[i] = [];
   for (let k = 0; k < colsm2; k++) {
     for (let i = 0; i < rowsm1; i++) {
-      var t = 0;
+      let t = 0;
       for (let j = 0; j < rowsm2; j++) t += m1[i][j] * m2[j][k];
       m3[i][k] = t;
     }
