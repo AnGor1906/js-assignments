@@ -71,7 +71,7 @@ function getAverage(value1, value2) {
  *   (-5,0) (10,-10) => 18.027756377319946
  */
 function getDistanceBetweenPoints(x1, y1, x2, y2) {
-  return Math.hypot((x2 - x1),(y2 - y1));
+  return Math.hypot(x2 - x1, y2 - y1);
 }
 
 /**
@@ -109,7 +109,6 @@ function getLinearEquationRoot(a, b) {
  */
 function getAngleBetweenVectors(x1, y1, x2, y2) {
   return Math.abs(Math.atan2(y1, x1) - Math.atan2(y2, x2));
-  
 }
 
 /**
@@ -200,13 +199,11 @@ function roundToPowerOfTen(num, pow) {
  *   17 => true
  */
 function isPrime(n) {
-    if(n==1)
-        return false;
-    for(let i=2; i<=Math.sqrt(n); i++){
-        if(n%i===0)
-            return false;
-    }
-    return true;
+  if (n == 1) return false;
+  for (let i = 2; i <= Math.sqrt(n); i++) {
+    if (n % i === 0) return false;
+  }
+  return true;
 }
 
 /**
@@ -225,7 +222,7 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-  if (typeof value === "number" || parseInt(value) + 2 > parseInt(value)) 
+  if (typeof value === "number" || parseInt(value) + 2 > parseInt(value))
     return value;
   return def;
 }

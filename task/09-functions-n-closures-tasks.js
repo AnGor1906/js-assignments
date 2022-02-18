@@ -25,9 +25,9 @@
  *
  */
 function getComposition(f, g) {
-    return function(x) {
-        return f(g(x));
-    };
+  return function (x) {
+    return f(g(x));
+  };
 }
 
 /**
@@ -84,10 +84,10 @@ function getPolynom() {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
-    const result = func();
-    return function() {
-        return result;
-    };
+  const result = func();
+  return function () {
+    return result;
+  };
 }
 
 /**
@@ -170,9 +170,9 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-    return function () {
-        return startFrom++;
-    };
+  return function () {
+    return startFrom++;
+  };
 }
 
 module.exports = {
