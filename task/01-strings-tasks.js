@@ -141,9 +141,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-  //return str.substring(1, str.length - 1)
   return str.slice(1, str.length - 1);
-  // TODO - done
 }
 
 /**
@@ -172,7 +170,6 @@ function convertToUpperCase(str) {
  */
 function extractEmails(str) {
   return str.split(";");
-  // TODO -done
 }
 
 /**
@@ -200,19 +197,11 @@ function extractEmails(str) {
  */
 function getRectangleString(width, height) {
   const n = "\n";
-  const topBottomCenter = "│".repeat(width - 2);
-  const top =
-    String.fromCharCode(9484) + topBottomCenter + String.fromCharCode(9488) + n;
-  const center = (
-    String.fromCharCode(9474) +
-    " ".repeat(width - 2) +
-    String.fromCharCode(9474) +
-    n
-  ).repeat(height - 2);
-  const bottom =
-    String.fromCharCode(9492) + topBottomCenter + String.fromCharCode(9496) + n;
+  const top = "┌" + "─".repeat(width - 2) + "┐" + n;
+  const center = ("│" + " ".repeat(width - 2) + "│" + n).repeat(height - 2);
+  const bottom = "└" + "─".repeat(width - 2) + "┘" + n;
   return top + center + bottom;
-  // TODO
+  // TODO-done
 }
 
 /**
@@ -232,8 +221,8 @@ function getRectangleString(width, height) {
  */
 function encodeToRot13(str) {
   const lettersCount = 26;
-  const lowercaseOffset = "z".charCodeAt(0);
-  const uppercaseOffset = "Z".charCodeAt(0);
+  const lowercaseOffset = "z".charCodeAt(0); //122
+  const uppercaseOffset = "Z".charCodeAt(0); //90
   return str.replace(/[a-zA-Z]/g, function (str) {
     return String.fromCharCode(
       (str <= "Z" ? uppercaseOffset : lowercaseOffset) >=
@@ -242,7 +231,7 @@ function encodeToRot13(str) {
         : str - lettersCount
     );
   });
-  // TODO figure out how it works
+  // TODO figure out how it works-done
 }
 
 /**

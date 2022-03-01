@@ -36,7 +36,7 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-  return Date.parse(value);
+  return new Date(value);
 }
 
 /**
@@ -54,7 +54,7 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-  return new Date(date.getFullYear(), 1, 29).getMonth() === 1;
+  return new Date(date.getFullYear(), 1, 29).getDate() === 29;
 }
 
 /**
@@ -73,26 +73,9 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-  //const milliseconds= Date.parse(endDate)-Date.parse(startDate) ;
-  const milliseconds = endDate - startDate;
-  const diffmin = new Date(milliseconds).getTimezoneOffset() * 60000;
-  let d = new Date(milliseconds + diffmin);
-
-  d = [
-    ("0" + d.getHours()).slice(-2),
-    ("0" + d.getMinutes()).slice(-2),
-    ("0" + d.getSeconds()).slice(-2),
-    ("00" + d.getMilliseconds()).slice(-3),
-  ];
-
-  return (
-    d.slice(0, 3).join(":") +
-    "." +
-    d.slice(3).join(":") +
-    d.slice(6).join(":") +
-    d.slice(10).join(":")
-  );
-  // TODO Figure out how it works
+  let diff = endDate - startDate;
+  return new Date(diff).toISOString().slice(11, 23);
+  // TODO Figure out how it works-done
 }
 
 /**

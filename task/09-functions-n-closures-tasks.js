@@ -45,11 +45,9 @@ function getComposition(f, g) {
  *
  */
 function getPowerFunction(exponent) {
-  return function (x) {
-    return Math.pow(x, exponent);
-  };
+  return (x) => x ** exponent;
 
-  // TODO
+  // TODO-done
 }
 
 /**
@@ -66,14 +64,10 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom(...args) {
-  return function (x) {
-    let result = 0;
-    for (let i = 0; i < args.length; i++)
-      result += args[i] * Math.pow(x, args.length - i - 1);
-    return result;
-  };
-
-  // TODO
+  return (x) => {
+    return [...args].reverse().reduce((prev, curr, index) => prev + curr * x** index, 0);
+};
+  // TODO-done?
 }
 
 /**
@@ -92,11 +86,14 @@ function getPolynom(...args) {
  */
 function memoize(func) {
   const result = func();
-  return function () {
-    return result;
+  return ()=>{
+    if (result === 0)
+            result = func();
+
+        return result;
   };
 
-  // TODO
+  // TODO-done mb??
 }
 
 /**
@@ -115,7 +112,7 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-  return function () {
+  return  ()=> {
     for (let i = 0; i <= attempts; i++)
       try {
         return func();
@@ -164,7 +161,16 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-  throw new Error("Not implemented");
+  let args = Array.from(arguments);
+  args.splice(0, 1);
+
+  return function () {
+      args = args.concat(Array.from(arguments));
+
+      return fn.apply(null, args);
+  };  
+  
+  //переделать!
 }
 
 /**
@@ -184,11 +190,8 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-  return function () {
-    return startFrom++;
-  };
-
-  // TODO
+  return  () =>startFrom++;
+  // TODO-done?? нет додедать!! или done??
 }
 
 module.exports = {

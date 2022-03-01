@@ -22,8 +22,8 @@
  *    [0, 1, 2, 3, 4, 5], 5    => 5
  */
 function findElement(arr, value) {
-  return arr.indexOf(value);
-  // TODO findIndex
+  return arr.findIndex((element) => element === value);
+  // TODO findIndex-done
 }
 
 /**
@@ -38,8 +38,8 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-  return new Array(len).fill(0).map((_, i) => 2 * i + 1);
-  // TODO better variable names
+  return new Array(len).fill(0).map((_, k) => 2 * k + 1);
+  // TODO better variable names-done
 }
 
 /**
@@ -211,7 +211,7 @@ function toCsvText(arr) {
  *   [ 10, 100, -1 ]      => [ 100, 10000, 1 ]
  */
 function toArrayOfSquares(arr) {
-  return arr.map((x) => x ** 2);
+  return arr.map((num) => num ** 2);
 }
 
 /**
@@ -229,14 +229,13 @@ function toArrayOfSquares(arr) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
 function getMovingSum(arr) {
-  const arr2 = [];
-  const amount = arr.reduce((acc, index) => {
-    arr2.push(acc);
-    return acc + index;
-  });
-  arr2.push(amount);
-  return arr2;
-  // TODO Refactor to use only one reduce and no outside variables
+  arr.reduce((previousValue, currentValue, currentIndex) => {
+    previousValue += currentValue;
+    arr[currentIndex] = previousValue;
+    return previousValue;
+  }, 0);
+  return arr;
+  // TODO Refactor to use only one reduce and no outside variables -done
 }
 
 /**
@@ -269,12 +268,12 @@ function getSecondItems(arr) {
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
 function propagateItemsByPositionIndex(arr) {
-  if (arr.length < 2) return arr;
-  return arr.reduce((acc, value, index) => {
-    acc.push(...Array(index + 1).fill(value));
-    return acc;
-  }, []);
-  // TODO Do without array mutation
+  let result = [];
+  arr.map((el, i) => {
+    result = [...result, ...Array(i + 1).fill(el)];
+  });
+  return result;
+  // TODO Do without array mutation-done
 }
 
 /**
@@ -291,8 +290,8 @@ function propagateItemsByPositionIndex(arr) {
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
 function get3TopItems(arr) {
-  return arr.reverse().slice(0, 3);
-  // TODO Do without mutation
+  return [...arr].reverse().slice(0, 3);
+  // TODO Do without mutation -done
 }
 
 /**
@@ -432,27 +431,9 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  */
 function sortCitiesArray(arr) {
-  //   arr.sort(function(a, b) {
-  //     const countryA = a.country.toLowerCase();
-  //     const countryB = b.country.toLowerCase();
-  //     if (countryA < countryB)
-  //         return -1
-  //     if (countryA > countryB)
-  //         return 1
-
-  //       const cityA = a.city.toLowerCase();
-  //       const cityB = b.city.toLowerCase();
-  //       if (cityA < cityB)
-  //           return -1
-  //       if (cityA > cityB)
-  //           return 1
-  //       return 0
-  //   })
-
   return arr.sort(
-    (a, b) =>
-      a.country.localeCompare(b.country) * 1000 + a.city.localeCompare(b.city)
-    // TODO Remove 1000
+    (a, b) => a.country.localeCompare(b.country) || a.city.localeCompare(b.city)
+    // TODO Remove 1000 -done
   );
 }
 
@@ -475,11 +456,10 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]
  */
 function getIdentityMatrix(n) {
-  return new Array(n).fill().map((el, index) => {
-    el = new Array(n).fill(0);
-    el[index] = 1;
-    return el;
-  });
+  const result = Array.from({ length: n }, () => []);
+  return result.map((_, index) =>
+    Array.from({ length: n }, (_, k) => (k === index ? 1 : 0))
+  );
 }
 
 /**
@@ -496,7 +476,7 @@ function getIdentityMatrix(n) {
  *     3, 3   => [ 3 ]
  */
 function getIntervalArray(start, end) {
-  return Array.from({ length: end - start + 1 }, (el, i) => start + i);
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 }
 
 /**
@@ -545,14 +525,17 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-  const map = new Map();
-  array = array.map((_, i) => {
-    const key = keySelector(array[i]);
-    if (map.has(key)) return map.get(key).push(valueSelector(array[i]));
-    return map.set(key, [valueSelector(array[i])]);
-  });
-  return map;
-  // TODO use reduce
+  return array.reduce((previous, current) => {
+    let key = keySelector(current),
+      value = valueSelector(current);
+
+    let arr = previous.get(key) || [];
+    arr.push(value);
+    previous.set(key, arr);
+    return previous;
+  }, new Map());
+
+  // TODO use reduce-done
 }
 
 /**
@@ -583,8 +566,10 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-  return indexes.map((element) => (arr = arr[element]));
-  // TODO remove mutation
+  return indexes.reduce((previousValue, currentValue) => {
+    return previousValue[currentValue];
+  }, arr);
+  // TODO remove mutation-done
 }
 
 /**
@@ -611,9 +596,9 @@ function swapHeadAndTail(arr) {
   const head = arr.slice(0, headTailLength);
   const body = arr.slice(headTailLength, headTailLength + 1);
   if (arr.length === 1) return arr;
-  if (arr.length % 2 === 0) return tail.concat(head);
-  return tail.concat(body, head);
-  // TODO use spread
+  if (arr.length % 2 === 0) return [...tail, ...head];
+  return [...tail, ...body, ...head];
+  // TODO use spread - done
 }
 
 module.exports = {

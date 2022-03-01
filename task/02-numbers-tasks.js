@@ -199,11 +199,10 @@ function roundToPowerOfTen(num, pow) {
  *   17 => true
  */
 function isPrime(n) {
-  if (n == 1) return false;
   for (let i = 2; i <= Math.sqrt(n); i++) {
     if (n % i === 0) return false;
   }
-  return true;
+  return n > 1;
 }
 
 /**
@@ -222,12 +221,9 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-  if (typeof value === "number" || parseInt(value) + 2 > parseInt(value)) {
-    return value;
-  }
-
-  return def;
-  // TODO isNaN
+  const number = Number(value);
+  return isNaN(number) ? def : number;
+  // TODO isNaN-done
 }
 
 module.exports = {
